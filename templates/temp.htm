@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1800px;height:800px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        // var initdata = [[100, 100, 102, 104, 106, 110, 111], [1001, 1004, 1062, 1046, 1063, 1102, 1114]];
+
+        // // 指定图表的配置项和数据
+        // var option = {
+        //     xAxis: {
+        //         data: initdata[0]
+        //     },
+        //     yAxis: {},
+        //     series: [{
+        //         name: '销量',
+        //         smooth: true,
+        //         type: 'line',
+        //         data: initdata[1]
+        //     }]
+        // };
+
+        // 使用刚指定的配置项和数据显示图表。
+        // if (option && typeof option === "object") {
+        //     myChart.setOption(option, true);
+        // }
+
+
+        setInterval(function () {
+            $.getJSON('/data', function (data) {
+                console.log(data);
+                myChart.setOption({
+                    xAxis: {
+                        // 时间
+                        boundaryGap: ['%50', '100%'],
+                        data: data[0]
+                    },
+                    yAxis: {
+                        // 占用内存大小
+                        min:100000,
+                        max:110000,
+                        // boundaryGap: ['%20', '50%'],
+                        type: 'value'
+                    },
+                    series: [{
+                        name: 'VmSize',
+                        smooth: true,
+                        type: 'line',
+                        data: data[1]
+                    }
+                    // ,{
+                    //     name: 'VmRSS',
+                    //     smooth: true,
+                    //     type: 'line',
+                    //     data: data[2]
+                    // }
+                    ]
+                })
+            });
+        }, 500);
+
+    </script>
+</body>
+
+</html>
